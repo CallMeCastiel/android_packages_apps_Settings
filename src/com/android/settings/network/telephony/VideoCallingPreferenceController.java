@@ -64,7 +64,6 @@ public class VideoCallingPreferenceController extends TelephonyTogglePreferenceC
     @Override
     public int getAvailabilityStatus(int subId) {
         return subId != SubscriptionManager.INVALID_SUBSCRIPTION_ID
-                && MobileNetworkUtils.isWifiCallingEnabled(mContext, subId)
                 && isVideoCallEnabled(subId)
                 ? AVAILABLE
                 : CONDITIONALLY_UNAVAILABLE;
