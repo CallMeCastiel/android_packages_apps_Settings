@@ -41,6 +41,10 @@ public class LightsPreferenceController extends NotificationPreferenceController
 
     @Override
     public boolean isAvailable() {
+        if (!mContext.getResources()
+                .getBoolean(com.android.internal.R.bool.config_hasNotificationLed)) {
+            return false;
+        }
         if (!super.isAvailable()) {
             return false;
         }
@@ -48,8 +52,7 @@ public class LightsPreferenceController extends NotificationPreferenceController
             return false;
         }
         return checkCanBeVisible(NotificationManager.IMPORTANCE_DEFAULT)
-                && canPulseLight()
-                && !isDefaultChannel();
+                && canPulseLight();
     }
 
     public void updateState(Preference preference) {
@@ -77,7 +80,7 @@ public class LightsPreferenceController extends NotificationPreferenceController
             return false;
         }
         return Settings.System.getInt(mContext.getContentResolver(),
-                Settings.System.NOTIFICATION_LIGHT_PULSE, 0) == 1;
+                Settings.System.NOTIFICATION_LIGHT_PULSE, 1) == 1;
     }
 
 }
