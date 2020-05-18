@@ -473,6 +473,7 @@ public class DevelopmentSettingsDashboardFragment extends RestrictedDashboardFra
         controllers.add(new ShowLayoutBoundsPreferenceController(context));
         controllers.add(new RtlLayoutPreferenceController(context));
         controllers.add(new WindowAnimationScalePreferenceController(context));
+        controllers.add(new EmulateDisplayCutoutPreferenceController(context));
         controllers.add(new TransitionAnimationScalePreferenceController(context));
         controllers.add(new AnimatorDurationScalePreferenceController(context));
         controllers.add(new SecondaryDisplayPreferenceController(context));
@@ -484,6 +485,7 @@ public class DevelopmentSettingsDashboardFragment extends RestrictedDashboardFra
         controllers.add(new ForceMSAAPreferenceController(context));
         controllers.add(new HardwareOverlaysPreferenceController(context));
         controllers.add(new SimulateColorSpacePreferenceController(context));
+        controllers.add(new SetGpuRendererPreferenceController(context));
         controllers.add(new UsbAudioRoutingPreferenceController(context));
         controllers.add(new StrictModePreferenceController(context));
         controllers.add(new ProfileGpuRenderingPreferenceController(context));
