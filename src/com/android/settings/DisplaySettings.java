@@ -32,6 +32,7 @@ import com.android.settings.display.ScreenSaverPreferenceController;
 import com.android.settings.display.ShowOperatorNamePreferenceController;
 import com.android.settings.display.TapToWakePreferenceController;
 import com.android.settings.display.ThemePreferenceController;
+import com.android.settings.display.TimeoutLockscreenPreferenceController;
 import com.android.settings.display.TimeoutPreferenceController;
 import com.android.settings.display.VrDisplayPreferenceController;
 import com.android.settings.search.BaseSearchIndexProvider;
@@ -40,6 +41,8 @@ import com.android.settingslib.core.AbstractPreferenceController;
 import com.android.settingslib.core.lifecycle.Lifecycle;
 import com.android.settingslib.search.SearchIndexable;
 
+import com.android.internal.custom.hardware.LineageHardwareManager;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -47,7 +50,9 @@ import java.util.List;
 public class DisplaySettings extends DashboardFragment {
     private static final String TAG = "DisplaySettings";
 
+    private static final String KEY_LOCKSCREEN_TIMEOUT = "lockscreen_timeout";
     private static final String KEY_SCREEN_TIMEOUT = "screen_timeout";
+    private static final String KEY_HIGH_TOUCH_SENSITIVITY = "high_touch_sensitivity_enable";
 
     @Override
     public int getMetricsCategory() {
@@ -88,6 +93,7 @@ public class DisplaySettings extends DashboardFragment {
         controllers.add(new NightModePreferenceController(context));
         controllers.add(new ScreenSaverPreferenceController(context));
         controllers.add(new TapToWakePreferenceController(context));
+        controllers.add(new TimeoutLockscreenPreferenceController(context, KEY_LOCKSCREEN_TIMEOUT));
         controllers.add(new TimeoutPreferenceController(context, KEY_SCREEN_TIMEOUT));
         controllers.add(new VrDisplayPreferenceController(context));
         controllers.add(new ShowOperatorNamePreferenceController(context));
@@ -108,6 +114,17 @@ public class DisplaySettings extends DashboardFragment {
                     sir.xmlResId = R.xml.display_settings;
                     result.add(sir);
                     return result;
+                }
+
+                @Override
+                public List<String> getNonIndexableKeys(Context context) {
+                    List<String> keys = super.getNonIndexableKeys(context);
+                    LineageHardwareManager hardware = LineageHardwareManager.getInstance(context);
+                    if (!hardware.isSupported(
+                            LineageHardwareManager.FEATURE_HIGH_TOUCH_SENSITIVITY)) {
+                        keys.add(KEY_HIGH_TOUCH_SENSITIVITY);
+                    }
+                    return keys;
                 }
 
                 @Override
